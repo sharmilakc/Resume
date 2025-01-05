@@ -1,5 +1,6 @@
 import streamlit as st
 from PIL import Image
+import os
 
 # Set page configuration
 st.set_page_config(
@@ -8,15 +9,18 @@ st.set_page_config(
     layout="centered",
 )
 
-# Upload and display profile picture
-st.sidebar.header("Upload Your Picture")
-uploaded_file = st.sidebar.file_uploader("Choose a profile picture", type=["jpg", "jpeg", "png"])
 
-if uploaded_file is not None:
-    profile_pic = Image.open(uploaded_file)
-    st.image(profile_pic, width=200, caption="Sharmila KC")
+# Alternatively, you can display a static image like this (check if file exists)
+img_path = r"c:\Users\sharm\OneDrive\Pictures\Profile pic.jpeg"  # Use raw string for Windows paths
+
+if os.path.exists(img_path):
+    try:
+        img = Image.open(img_path)
+        st.image(img, width=200, caption="Sharmila KC")
+    except Exception as e:
+        st.error(f"Error opening static image: {e}")
 else:
-    st.write("Upload your picture using the sidebar!")
+    st.warning(f"Static image path not found: {img_path}")
 
 # Resume Header
 st.markdown(
@@ -107,4 +111,3 @@ st.markdown(
     """,
     unsafe_allow_html=True,
 )
-
